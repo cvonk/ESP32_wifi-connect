@@ -22,6 +22,10 @@ The `WIFI_CONNECT_SSID` and `WIFI_CONNECT_PASSWORD` can be provisioned using `Kc
 The software relies on the master ESP-IDF SDK version v4.3-dev-472-gcf056a7d0 and accompanying tools.
 
 Clone this component in your project's `components` directory, or use it as a git submodule.
+```
+git submodule add -b master https://github.com/cvonk/ESP32_wifi-connect.git components/wifi_connect
+git submodule init
+```
 
 Copy the `Kconfig.example` into your `Kconfig` and update the configuration.
 
@@ -34,7 +38,7 @@ wifi_connect_config_t wifi_connect_config = {
 };
 wifi_connect(&wifi_connect_config);
 ```
-Here `_wifi_connect_on_connect` and `_wifi_connect_on_disconnect` are user supplied callback functions.  The element `priv` is intended to private data used in these callback functions.  
+Here `_wifi_connect_on_connect` and `_wifi_connect_on_disconnect` are user supplied callback functions.  The element `priv` is intended to private data used in these callback functions.
 
 
 ## Feedback
