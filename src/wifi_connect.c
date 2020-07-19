@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <stdio.h>
+#include <string.h>
 #include <sdkconfig.h>
 #include <esp_system.h>
 #include <esp_wifi.h>
@@ -18,11 +19,7 @@
 
 #include "wifi_connect.h"
 
-#define ARRAYSIZE(a) (sizeof(a) / sizeof(*(a)))
-#define ALIGN( type ) __attribute__((aligned( __alignof__( type ) )))
-#define PACK( type )  __attribute__((aligned( __alignof__( type ) ), packed ))
-#define PACK8  __attribute__((aligned( __alignof__( uint8_t ) ), packed ))
-
+static char const * const TAG = "wifi_connect";
 static EventGroupHandle_t _wifi_event_group;
 
 typedef enum {
@@ -79,7 +76,8 @@ wifi_connect(wifi_connect_config_t * const config)
     ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &_wifiConnectHandler, config));
 
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-    if (*(CONFIG_WIFI_CONNECT_SSID)) {
+    if (strlen(CONFIG_WIFI_CONNECT_SSID)) {
+        ESP_LOGW(TAG, "  using Kconfig SSID %s", CONFIG_WIFI_CONNECT_SSID);
         wifi_config_t wifi_config = {
             .sta = {
                 .ssid = CONFIG_WIFI_CONNECT_SSID,
@@ -87,7 +85,14 @@ wifi_connect(wifi_connect_config_t * const config)
             }
         };
         ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
-    };
+    } else {
+        wifi_config_t wifi_cfg;
+        if (esp_wifi_get_config(ESP_IF_WIFI_STA, &wifi_cfg) != ESP_OK ||
+            *wifi_cfg.sta.ssid == 0) {
+            ESP_LOGE(TAG, "No SSID/Passwd in flash");
+            return ESP_ERR_WIFI_SSID;
+        }
+    }
     ESP_ERROR_CHECK(esp_wifi_start());
 
     // wait until either the connection is established

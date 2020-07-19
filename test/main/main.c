@@ -99,7 +99,7 @@ app_main(void)
         .onDisconnect = _wifi_connect_on_disconnect,
         .priv = &priv,
     };
-    wifi_connect(&wifi_connect_config);
+    ESP_ERROR_CHECK(wifi_connect(&wifi_connect_config));
 
     ESP_LOGI(TAG, "Connected");
     while (1) {
