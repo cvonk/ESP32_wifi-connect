@@ -72,7 +72,7 @@ _wifiDisconnectHandler(void * arg_void, esp_event_base_t event_base, int32_t eve
             break;
     }
     if (cfg->onDisconnect) {
-        if (cfg->onDisconnect(cfg->priv) != ESP_OK) {
+        if (cfg->onDisconnect(cfg->priv, auth_err) != ESP_OK) {
             reconnect = false;
         }
     }
