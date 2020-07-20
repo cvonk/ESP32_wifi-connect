@@ -103,22 +103,21 @@ app_main(void)
 
 #if defined(CONFIG_WIFI_CONNECT_SSID) && defined(CONFIG_WIFI_CONNECT_PASSWD)
     if (strlen(CONFIG_WIFI_CONNECT_SSID)) {
-        ESP_LOGW(TAG, "  using SSID from Kconfig", CONFIG_WIFI_CONNECT_SSID);
-        wifi_config_t const wifi_config = {
+        ESP_LOGW(TAG, "Using SSID from Kconfig");
+        wifi_config_t wifi_config = {
             .sta = {
                 .ssid = CONFIG_WIFI_CONNECT_SSID,
                 .password = CONFIG_WIFI_CONNECT_PASSWD,
             }
         };
-        wifi_connect_start(&wifi_config);
+        ESP_ERROR_CHECK(wifi_connect_start(&wifi_config));
     } else
-#else
+#endif
     {
-        ESP_LOGW(TAG, "  using SSID from flash");
+        ESP_LOGW(TAG, "Using SSID from flash");
         wifi_connect_start(NULL);
     }
-#endif
-   ESP_LOGI(TAG, "Connected");
+    ESP_LOGI(TAG, "Connected to WiFi AP");
     while (1) {
         // do something
         vTaskDelay(1000 / portTICK_PERIOD_MS);

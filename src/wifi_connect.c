@@ -77,7 +77,7 @@ wifi_connect_init(wifi_connect_config_t * const config)
 }
 
 esp_err_t
-wifi_connect_start(wifi_config_t const * const wifi_config)
+wifi_connect_start(wifi_config_t * const wifi_config)
 {
     _event_group = xEventGroupCreate();
     assert(_event_group);
