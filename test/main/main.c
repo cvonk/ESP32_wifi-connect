@@ -99,9 +99,26 @@ app_main(void)
         .onDisconnect = _wifi_connect_on_disconnect,
         .priv = &priv,
     };
-    ESP_ERROR_CHECK(wifi_connect(&wifi_connect_config));
+    ESP_ERROR_CHECK(wifi_connect_init(&wifi_connect_config));
 
-    ESP_LOGI(TAG, "Connected");
+#if defined(CONFIG_WIFI_CONNECT_SSID) && defined(CONFIG_WIFI_CONNECT_PASSWD)
+    if (strlen(CONFIG_WIFI_CONNECT_SSID)) {
+        ESP_LOGW(TAG, "  using SSID from Kconfig", CONFIG_WIFI_CONNECT_SSID);
+        wifi_config_t const wifi_config = {
+            .sta = {
+                .ssid = CONFIG_WIFI_CONNECT_SSID,
+                .password = CONFIG_WIFI_CONNECT_PASSWD,
+            }
+        };
+        wifi_connect_start(&wifi_config);
+    } else
+#else
+    {
+        ESP_LOGW(TAG, "  using SSID from flash");
+        wifi_connect_start(NULL);
+    }
+#endif
+   ESP_LOGI(TAG, "Connected");
     while (1) {
         // do something
         vTaskDelay(1000 / portTICK_PERIOD_MS);
