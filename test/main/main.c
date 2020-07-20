@@ -54,8 +54,8 @@ _httpd_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
-static void
-_wifi_connect_on_connect(void * const priv_void, esp_ip4_addr_t const * const ip)
+static esp_err_t
+_wifi_connect_cb(void * const priv_void, esp_ip4_addr_t const * const ip)
 {
     wifi_connect_priv_t * const priv = priv_void;
     priv->connectCnt++;
@@ -66,17 +66,19 @@ _wifi_connect_on_connect(void * const priv_void, esp_ip4_addr_t const * const ip
     esp_err_t err = httpd_start(&priv->httpd_handle, &config);
     if (err != ESP_OK) {
        ESP_LOGI(TAG, "Error starting server!");
-       return;
+    } else {
+        httpd_register_uri_handler(priv->httpd_handle, priv->httpd_uri);
+        ESP_LOGI(TAG, "Listening at http://" IPSTR "/", IP2STR(ip));
     }
-    httpd_register_uri_handler(priv->httpd_handle, priv->httpd_uri);
-    ESP_LOGI(TAG, "Listening at http://" IPSTR "/", IP2STR(ip));
+    return ESP_OK;
 }
 
-static void
-_wifi_connect_on_disconnect(void * const priv_void)
+static esp_err_t
+_wifi_disconnect_cb(void * const priv_void)
 {
     wifi_connect_priv_t * const priv = priv_void;
     httpd_stop(priv->httpd_handle);
+    return ESP_OK;
 }
 
 void
@@ -95,8 +97,8 @@ app_main(void)
         .httpd_uri = &httpd_uri,
     };
     wifi_connect_config_t wifi_connect_config = {
-        .onConnect = _wifi_connect_on_connect,
-        .onDisconnect = _wifi_connect_on_disconnect,
+        .onConnect = _wifi_connect_cb,
+        .onDisconnect = _wifi_disconnect_cb,
         .priv = &priv,
     };
     ESP_ERROR_CHECK(wifi_connect_init(&wifi_connect_config));
