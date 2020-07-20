@@ -53,7 +53,6 @@ _wifiDisconnectHandler(void * arg_void, esp_event_base_t event_base, int32_t eve
     if (_event_group) {
         xEventGroupClearBits(_event_group, WIFI_EVENT_CONNECTED);
     }
-    bool reconnect = true;
     wifi_connect_config_t * const cfg = arg_void;
 
     wifi_event_sta_disconnected_t const * const disconn = (wifi_event_sta_disconnected_t *) event_data;
@@ -73,13 +72,11 @@ _wifiDisconnectHandler(void * arg_void, esp_event_base_t event_base, int32_t eve
     }
     if (cfg->onDisconnect) {
         if (cfg->onDisconnect(cfg->priv, auth_err) != ESP_OK) {
-            reconnect = false;
+            return;  // no reconnect
         }
     }
-    if (reconnect) {
-        vTaskDelay(10000L / portTICK_PERIOD_MS);
-        ESP_ERROR_CHECK(esp_wifi_connect());
-    }
+    vTaskDelay(10000L / portTICK_PERIOD_MS);
+    ESP_ERROR_CHECK(esp_wifi_connect());
 }
 
 esp_err_t
