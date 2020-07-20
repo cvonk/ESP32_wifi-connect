@@ -3,7 +3,7 @@
 
 
 typedef void (* wifi_connect_on_connect_t)(void * const priv, esp_ip4_addr_t const * const ip);
-typedef void (* wifi_connect_on_disconnect_t)(void * const priv);
+typedef void (* wifi_connect_on_disconnect_t)(void * const priv, bool const auth_err);
 
 typedef struct wifi_connect_config_t {
     wifi_connect_on_connect_t     onConnect;     // called when WiFi is connected (e.g. to start an http server)

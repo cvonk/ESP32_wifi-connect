@@ -54,8 +54,24 @@ _wifiDisconnectHandler(void * arg_void, esp_event_base_t event_base, int32_t eve
         xEventGroupClearBits(_event_group, WIFI_EVENT_CONNECTED);
     }
     wifi_connect_config_t * const cfg = arg_void;
+
+    wifi_event_sta_disconnected_t const * const disconn = (wifi_event_sta_disconnected_t *) event_data;
+    bool auth_err = false;
+    switch (disconn->reason) {
+        case WIFI_REASON_AUTH_EXPIRE:
+        case WIFI_REASON_4WAY_HANDSHAKE_TIMEOUT:
+        case WIFI_REASON_BEACON_TIMEOUT:
+        case WIFI_REASON_AUTH_FAIL:
+        case WIFI_REASON_ASSOC_FAIL:
+        case WIFI_REASON_HANDSHAKE_TIMEOUT:
+            auth_err = true;
+            break;
+        case WIFI_REASON_NO_AP_FOUND:
+        default:
+            break;
+    }
     if (cfg->onDisconnect) {
-        cfg->onDisconnect(cfg->priv);
+        cfg->onDisconnect(cfg->priv, auth_err);
     }
     vTaskDelay(10000L / portTICK_PERIOD_MS);
     ESP_ERROR_CHECK(esp_wifi_connect());

@@ -73,10 +73,12 @@ _wifi_connect_on_connect(void * const priv_void, esp_ip4_addr_t const * const ip
 }
 
 static void
-_wifi_connect_on_disconnect(void * const priv_void)
+_wifi_connect_on_disconnect(void * const priv_void, bool const auth_err)
 {
     wifi_connect_priv_t * const priv = priv_void;
     httpd_stop(priv->httpd_handle);
+
+    // should probably reprovision on repeated auth_err
 }
 
 void
