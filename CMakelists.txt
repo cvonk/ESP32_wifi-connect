@@ -1,4 +1,4 @@
-set(COMPONENT_SRCS "src/wifi_connect.c")
-set(COMPONENT_ADD_INCLUDEDIRS "include")
-set(COMPONENT_REQUIRES nvs_flash)
-register_component()
+idf_component_register(SRCS "src/wifi_connect.c"
+                       INCLUDE_DIRS "include"
+                       REQUIRES nvs_flash
+)
