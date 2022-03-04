@@ -29,6 +29,9 @@ typedef enum {
 static void
 _wifiStaStart(void * arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
+    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
+        ESP_LOGW(TAG, "WIFI_EVENT_STA_START");
+    }
     //wifi_connect_config_t * const arg = arg_void;
     ESP_ERROR_CHECK(esp_wifi_connect());
 }
@@ -80,17 +83,18 @@ _wifiDisconnectHandler(void * arg_void, esp_event_base_t event_base, int32_t eve
 }
 
 esp_err_t
-wifi_connect_init(wifi_connect_config_t * const config)
+wifi_connect_init(wifi_connect_config_t * const connect_config)
 {
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     esp_netif_create_default_wifi_sta();
+    
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();  // init WiFi with configuration from non-volatile storage
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
-    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_START, &_wifiStaStart, config));
-    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &_wifiDisconnectHandler, config));
-    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &_wifiConnectHandler, config));
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_START, &_wifiStaStart, connect_config));
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &_wifiDisconnectHandler, connect_config));
+    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &_wifiConnectHandler, connect_config));
     return ESP_OK;
 }
 
