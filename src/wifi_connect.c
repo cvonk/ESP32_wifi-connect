@@ -29,11 +29,8 @@ typedef enum {
 static void
 _wifiStaStart(void * arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
-        ESP_LOGW(TAG, "WIFI_EVENT_STA_START");
-    }
-    //wifi_connect_config_t * const arg = arg_void;
-    ESP_ERROR_CHECK(esp_wifi_connect());
+    ESP_LOGW(TAG, "WIFI_EVENT_STA_START");
+    esp_wifi_connect();
 }
 
 static void
