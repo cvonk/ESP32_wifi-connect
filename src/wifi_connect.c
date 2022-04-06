@@ -109,7 +109,6 @@ wifi_connect_start(wifi_config_t * const wifi_config)
     wifi_config_t wifi_cfg;
     if (esp_wifi_get_config(ESP_IF_WIFI_STA, &wifi_cfg) != ESP_OK ||
         *wifi_cfg.sta.ssid == 0) {
-        ESP_LOGE(TAG, "No SSID/Passwd");
         return ESP_ERR_WIFI_SSID;
     }
     ESP_ERROR_CHECK(esp_wifi_start());
