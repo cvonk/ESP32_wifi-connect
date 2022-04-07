@@ -1,8 +1,17 @@
 /**
- * @brief ESP32 Component to connect to WiFi Access Point
- **/
-// Copyright © 2020, Coert Vonk
-// SPDX-License-Identifier: MIT
+ * @brief ESP32_wifi_connect - Component to connect to WiFi Access Point
+ *
+ * Inspired by <https://github.com/espressif/esp-idf/blob/master/examples/system/ota/native_ota_example/main/native_ota_example.c>
+ * 
+ * Written in 2018, 2019, 2022 by ESPRESSIF and Coert Vonk 
+ * 
+ * To the extent possible under law, the author(s) have dedicated all copyright and related and
+ * neighboring rights to this software to the public domain worldwide. This software is
+ * distributed without any warranty. You should have received a copy of the CC0 Public Domain
+ * Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+ * 
+ * SPDX-License-Identifier: CC0-1.0
+ */
 
 #include <stdio.h>
 #include <string.h>
