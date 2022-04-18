@@ -2,8 +2,6 @@
 
 [![GitHub Discussions](https://img.shields.io/github/discussions/cvonk/OPNpool)](https://github.com/cvonk/ESP32_wifi-connect/discussions) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/cvonk/ESP32_wifi-connect?include_prereleases&logo=DocuSign&logoColor=%23fff) ![GitHub](https://img.shields.io/github/license/cvonk/ESP32_wifi-connect)
 
-[![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/)
-
 ## Goal
 
 [The ESP-IDF API](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html)
