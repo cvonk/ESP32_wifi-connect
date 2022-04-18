@@ -1,5 +1,7 @@
 # ESP32 - Connect to WiFi Access Point
 
+[![GitHub Discussions](https://img.shields.io/github/discussions/cvonk/OPNpool)](https://github.com/cvonk/ESP32_wifi-connect/discussions) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/cvonk/ESP32_wifi-connect?include_prereleases&logo=DocuSign&logoColor=%23fff) ![GitHub](https://img.shields.io/github/license/cvonk/ESP32_wifi-connect)
+
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/)
 
 ## Goal
@@ -43,4 +45,4 @@ Here `_wifi_connect_on_connect` and `_wifi_connect_on_disconnect` are user suppl
 
 ## Feedback
 
-I love to hear from you. Please use the usual Github mechanisms to contact me.
+I love to hear from you. Please use the Github discussion board to contact me.
