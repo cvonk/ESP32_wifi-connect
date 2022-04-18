@@ -1,6 +1,8 @@
 # ESP32 - Connect to WiFi Access Point
 
-[![GitHub Discussions](https://img.shields.io/github/discussions/cvonk/ESP32_wifi-connect)](https://github.com/cvonk/ESP32_wifi-connect/discussions) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/cvonk/ESP32_wifi-connect) ![GitHub](https://img.shields.io/github/license/cvonk/ESP32_wifi-connect)
+[![GitHub Discussions](https://img.shields.io/github/discussions/cvonk/ESP32_wifi-connect)](https://github.com/cvonk/ESP32_wifi-connect/discussions)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/cvonk/ESP32_wifi-connect)
+![GitHub](https://img.shields.io/github/license/cvonk/ESP32_wifi-connect)
 
 ## Goal
 
